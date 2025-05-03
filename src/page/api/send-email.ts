@@ -27,6 +27,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     });
 
+    
     await transporter.sendMail({
       from: `GPTROBOTIC <${process.env.EMAIL_FROM}>`,
       to: process.env.EMAIL_TO,
