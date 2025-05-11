@@ -1,32 +1,27 @@
-// src/pages/api/send-email.ts
-import type { NextApiRequest, NextApiResponse } from "next";
+// src/app/api/send-email/route.ts
+import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ message: "Método no permitido" });
-  }
-
-  const { nombre, email, mensaje } = req.body;
+export async function POST(req: Request) {
+  const { nombre, email, mensaje } = await req.json();
 
   if (!nombre || !email || !mensaje) {
-    return res.status(400).json({ message: "Faltan campos obligatorios" });
+    return NextResponse.json({ message: "Faltan campos obligatorios" }, { status: 400 });
   }
 
   try {
     const transporter = nodemailer.createTransport({
       host: "smtpout.secureserver.net",
       port: 465,
-      secure: true, // SSL
+      secure: true,
       auth: {
         user: process.env.EMAIL_FROM,
-        pass: process.env.EMAIL_PASS
+        pass: process.env.EMAIL_PASS,
       },
       tls: {
-        rejectUnauthorized: false // Recomendado para evitar fallos con algunos proveedores
-      }
+        rejectUnauthorized: false,
+      },
     });
-
 
     await transporter.sendMail({
       from: `GPTROBOTIC <${process.env.EMAIL_FROM}>`,
@@ -37,14 +32,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         <p><strong>Nombre:</strong> ${nombre}</p>
         <p><strong>Email:</strong> ${email}</p>
         <p><strong>Mensaje:</strong><br/>${mensaje}</p>
-      `
+      `,
     });
 
-    return res.status(200).json({ message: "Mensaje enviado con éxito" });
-  }  catch (error) {
-
+    return NextResponse.json({ message: "Mensaje enviado con éxito" });
+  } catch (error) {
     console.error("Error al enviar el correo:", (error as Error)?.message || error);
-
-    return res.status(500).json({ message: "Error al enviar el mensaje" });
+    return NextResponse.json({ message: "Error al enviar el mensaje" }, { status: 500 });
   }
 }
