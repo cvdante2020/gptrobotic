@@ -206,19 +206,20 @@ const [enviando, setEnviando] = useState(false);
   required
 />
 <button
-              type="submit"
-              className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full flex justify-center items-center"
-              disabled={enviando}
-            >
-              {enviando ? (
-                <>
-                  <Image src="/loader-white.svg" alt="Cargando..." width={24} height={24} className="mr-2 animate-spin" />
-                  Enviando...
-                </>
-              ) : (
-                "Enviar mensaje"
-              )}
-            </button>
+  type="submit"
+  disabled={enviando}
+  className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full flex justify-center items-center"
+>
+  {enviando ? (
+    <>
+      <Image src="/loader-white.svg" alt="Cargando..." width={20} height={20} className="mr-2 animate-spin" />
+      Enviando...
+    </>
+  ) : (
+    "Enviar mensaje"
+  )}
+</button>
+
          </form>
         )}
       </section>
