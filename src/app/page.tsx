@@ -3,7 +3,6 @@
 
 import Image from "next/image";
 import { useState } from "react";
-
 export default function Home() {
  const [form, setForm] = useState({
   nombre: "",
@@ -196,9 +195,7 @@ const [enviando, setEnviando] = useState(false);
   className="w-full px-4 py-2 border border-gray-700 bg-gray-800 text-white rounded"
   required
 />
-
-
-           <textarea
+    <textarea
   name="mensaje"
   value={form.mensaje}
   onChange={handleChange}
@@ -259,8 +256,6 @@ const [enviando, setEnviando] = useState(false);
           }
         `}</style>
       </section>
-
-
 <section className="py-20 bg-black text-white text-center">
   <h2 className="text-3xl font-bold mb-10 text-blue-400">Nuestros resultados</h2>
   <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
@@ -301,6 +296,7 @@ const [enviando, setEnviando] = useState(false);
           <Image src="/aws-logo.png" alt="AWS Logo" width={60} height={30} />
           <Image src="/azure-logo.png" alt="Azure Logo" width={60} height={30} />
         </div>
+
       </section>
       <footer className="bg-gradient-to-r from-red-700 via-blue-800 to-gray-700 text-white text-center py-6">
         <p className="text-sm">GPTROBOTIC © {new Date().getFullYear()} - Todos los derechos reservados</p>
