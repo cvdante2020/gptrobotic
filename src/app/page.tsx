@@ -10,15 +10,11 @@ export default function Home() {
   celular: "", // nuevo campo
   mensaje: ""
 });
-
-  const [enviado, setEnviado] = useState(false);
-const [enviando, setEnviando] = useState(false);
+const [enviando, setEnviando] = useState(false); // eslint-disable-line @typescript-eslint/no-unused-vars
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
-
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -32,7 +28,7 @@ const [enviando, setEnviando] = useState(false);
       });
 
       if (response.ok) {
-        setEnviado(true);
+        setEnviando(true);
         setForm({ nombre: "", email: "",celular:"", mensaje: "" });
       } else {
         alert("Hubo un error al enviar el mensaje. Inténtalo de nuevo más tarde.");
@@ -158,7 +154,7 @@ const [enviando, setEnviando] = useState(false);
     <section id="contacto" className="py-20 px-6 max-w-3xl mx-auto">
   <h2 className="text-3xl font-bold text-blue-400 text-center mb-6">Contáctanos</h2>
 
-  {enviado ? (
+  {enviando ? (
     <p className="text-green-400 text-center text-lg">✅ Gracias por contactarnos. Te responderemos pronto.</p>
   ) : (
     <form onSubmit={handleSubmit} className="space-y-4">
