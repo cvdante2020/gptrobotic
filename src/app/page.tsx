@@ -73,15 +73,28 @@ const [enviando, setEnviando] = useState(false); // eslint-disable-line @typescr
   <p className="text-lg text-center mb-10 text-gray-300">
     En GPT Robotic transformamos ideas en soluciones tecnológicas para negocios inteligentes y automatizados.
   </p>
+<div className="bg-gray-800 text-white rounded-lg p-6 mb-6">
+  <h3 className="text-xl font-bold mb-2 text-yellow-400">
+    🧠 Desarrollo de Sistemas
+  </h3>
+  <p className="text-sm text-white">
+    Creamos soluciones tecnológicas a la medida para tu negocio: consultorios, clínicas, almacenes, puntos de venta, tiendas, sistemas contables y todo lo que necesite ser automatizado. Integramos software eficiente para hacer tu operación más inteligente.
+  </p>
+</div>
+
+
+
   <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 text-left text-lg text-white">
     <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
       <h3 className="text-xl font-bold mb-2 text-yellow-400">🌐 Desarrollo Web</h3>
       <p>Diseñamos y desarrollamos páginas web profesionales, modernas, responsivas y enfocadas en conversión.</p>
     </div>
+
     <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
       <h3 className="text-xl font-bold mb-2 text-yellow-400">🗣️ Voice Bots & Chatbots</h3>
       <p>Implementamos asistentes virtuales por voz o chat conectados a WhatsApp, Web o llamadas telefónicas, usando IA.</p>
     </div>
+
     <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
       <h3 className="text-xl font-bold mb-2 text-yellow-400">📣 Marketing Digital</h3>
       <p>Diseñamos e implementamos campañas publicitarias con segmentación precisa y resultados medibles.</p>
@@ -137,7 +150,7 @@ const [enviando, setEnviando] = useState(false); // eslint-disable-line @typescr
       </section>
 
       <section className="py-20 px-6 max-w-5xl mx-auto">
-        <h2 className="text-3xl font-bold text-blue-400 text-center mb-6">Ejemplos de bots en acción</h2>
+        <h2 className="text-3xl font-bold text-blue-400 text-center mb-6">Ejemplos de bots y Sistemas CRM</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           <div className="bg-gray-900 p-4 rounded-lg shadow-lg">
             <Image src="/whatsapp1.png" alt="WhatsApp Bot Demo 1" width={300} height={300} className="rounded-lg" />
@@ -150,6 +163,49 @@ const [enviando, setEnviando] = useState(false); // eslint-disable-line @typescr
           </div>
         </div>
       </section>
+
+      <h2 className="text-2xl font-bold text-center text-sky-400 mt-20 mb-6">
+  Soluciones CRM Cloud para tu Negocio
+</h2>
+
+<p className="text-center text-white mb-12 max-w-3xl mx-auto text-base md:text-lg">
+  En GPT Robotic desarrollamos <span className="text-yellow-400 font-semibold">sistemas inteligentes</span> para 
+  <span className="text-green-400"> clínicas, consultorios, tiendas, almacenes</span> y más. 
+  Controla tu negocio desde cualquier lugar, con reportes, fichas, inventarios y automatización total.
+</p>
+
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-4 md:px-16">
+  <div className="bg-gray-800 rounded-xl p-4 text-white shadow-lg">
+    <img src="/clinic-crm.png" alt="CRM Clínicas" className="rounded mb-3" />
+    <h3 className="font-bold text-yellow-400 text-lg mb-2">Consultorios y Clínicas</h3>
+    <p className="text-sm">Historia médica, agendamiento, recetas, pagos y alertas en tiempo real.</p>
+  </div>
+  <div className="bg-gray-800 rounded-xl p-4 text-white shadow-lg">
+    <img src="/store-crm.png" alt="CRM Tiendas" className="rounded mb-3" />
+    <h3 className="font-bold text-yellow-400 text-lg mb-2">Tiendas y Almacenes</h3>
+    <p className="text-sm">Controla stock, ventas, usuarios, promociones y reportes desde tu celular.</p>
+  </div>
+  <div className="bg-gray-800 rounded-xl p-4 text-white shadow-lg">
+    <img src="/warehouse-crm.png" alt="CRM Almacenes" className="rounded mb-3" />
+    <h3 className="font-bold text-yellow-400 text-lg mb-2">Gestión de Inventarios</h3>
+    <p className="text-sm">Inventarios inteligentes, códigos de barras, trazabilidad por sucursal.</p>
+  </div>
+  <div className="bg-gray-800 rounded-xl p-4 text-white shadow-lg">
+    <img src="/cloud-benefits.png" alt="CRM Cloud" className="rounded mb-3" />
+    <h3 className="font-bold text-yellow-400 text-lg mb-2">Sistema Contable o Módulo de Facturación</h3>
+    <p className="text-sm">Sin límite de espacio, accesible 24/7, backups automáticos y seguridad avanzada.</p>
+  </div>
+</div>
+
+<div className="text-center mt-10">
+  <p className="text-xl font-bold text-green-400">
+    🥇 ¡Primeros 3 meses completamente <span className="underline text-white">gratis</span>!
+  </p>
+  <button className="mt-4 px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg shadow-lg transition-all">
+    Solicita tu sistema CRM ahora
+  </button>
+</div>
+
 
     <section id="contacto" className="py-20 px-6 max-w-3xl mx-auto">
   <h2 className="text-3xl font-bold text-blue-400 text-center mb-6">Contáctanos</h2>
@@ -180,17 +236,18 @@ const [enviando, setEnviando] = useState(false); // eslint-disable-line @typescr
         className="w-full px-4 py-2 border border-gray-700 bg-gray-800 text-white rounded"
         required
       />
-      <input
-        name="celular"
-        type="tel"
-        value={form.celular}
-        onChange={handleChange}
-        placeholder="Tu número de celular"
-        pattern="^(09\\d{8}|593\\d{9})$"
-        title="Debe iniciar con 09 o 593 y tener el formato correcto"
-        className="w-full px-4 py-2 border border-gray-700 bg-gray-800 text-white rounded"
-        required
-      />
+    <input
+  name="celular"
+  type="tel"
+  value={form.celular}
+  onChange={handleChange}
+  placeholder="Tu número de celular"
+  pattern="^(09\d{8}|593\d{9})$"
+  title="Debe iniciar con 09 o 593 y tener el formato correcto"
+  className="w-full px-4 py-2 border border-gray-700 bg-gray-800 text-white rounded"
+  required
+/>
+
       <textarea
         name="mensaje"
         value={form.mensaje}
