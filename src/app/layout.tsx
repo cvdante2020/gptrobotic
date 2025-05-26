@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import MessengerChat from "@/components/MessengerChat";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,11 +17,9 @@ export const metadata: Metadata = {
   title: "GPT Robotic",
   description: "Tu asistente automatizado para negocios",
   icons: {
-    icon: "/favicon2.ico",  // ← ESTA ES LA LÍNEA QUE USA EL ICONO
+    icon: "/favicon2.ico",
   },
 };
-
-
 
 export default function RootLayout({
   children,
@@ -28,11 +27,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <html lang="es">
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {children}
+        <MessengerChat />
       </body>
     </html>
   );

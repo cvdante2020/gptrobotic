@@ -1,23 +1,25 @@
-// src/app/page.tsx
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
+import Navbar from "../components/Navbar";
 import { useState } from "react";
+
 export default function Home() {
- const [form, setForm] = useState({
-  nombre: "",
-  email: "",
-  celular: "", // nuevo campo
-  mensaje: ""
-});
-const [enviando, setEnviando] = useState(false); // eslint-disable-line @typescript-eslint/no-unused-vars
+  const [form, setForm] = useState({
+    nombre: "",
+    email: "",
+    celular: "",
+    mensaje: ""
+  });
+  const [enviando, setEnviando] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     try {
       const response = await fetch("/api/send-email", {
         method: "POST",
@@ -29,7 +31,7 @@ const [enviando, setEnviando] = useState(false); // eslint-disable-line @typescr
 
       if (response.ok) {
         setEnviando(true);
-        setForm({ nombre: "", email: "",celular:"", mensaje: "" });
+        setForm({ nombre: "", email: "", celular: "", mensaje: "" });
       } else {
         alert("Hubo un error al enviar el mensaje. Inténtalo de nuevo más tarde.");
       }
@@ -39,18 +41,66 @@ const [enviando, setEnviando] = useState(false); // eslint-disable-line @typescr
     }
   };
 
-    return (
-      
+  return (
     <main className="min-h-screen bg-gray-950 text-gray-100 relative">
+      <Navbar />
       <section className="py-20 px-6 text-center bg-black text-white relative">
         <Image src="/logo-gptrobotic-v2.png" alt="GPT Robotic Logo" width={130} height={130} className="mx-auto mb-4" />
         <h1 className="text-4xl md:text-5xl font-extrabold mb-4 text-white">GPTROBOTIC</h1>
+        <div className="flex justify-center gap-4 mb-6">
+          <Link href="/clinicas" className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Ver solución para Clínicas</Link>
+          <Link href="/autos" className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Ver solución para Patios de Autos</Link>
+        </div>
         <p className="text-lg md:text-xl max-w-3xl mx-auto text-white">
           Más de <strong>100 chatbots activos</strong> en menos de 3 meses 🚀<br />
-          Automatizamos negocios en el mundo <strong>retail</strong>, <strong>financiero</strong>, <strong>médico</strong>, <strong>farmacéutico</strong>, <strong>venta de autos</strong>, <strong>educación</strong>, <strong>restauración</strong>, <strong>logística</strong>, <strong>turismo</strong>, <strong>ONGs</strong> y <strong>e-commerce</strong>.
+          Automatizamos negocios en los sectores <strong>retail</strong>, <strong>financiero</strong>, <strong>médico</strong>, <strong>farmacéutico</strong>, <strong>venta de autos</strong>, <strong>educación</strong>, <strong>restauración</strong>, <strong>logística</strong>, <strong>turismo</strong>, <strong>ONGs</strong> y <strong>e-commerce</strong>.
         </p>
         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-600 via-blue-500 to-gray-400"></div>
       </section>
+
+      <section className="py-20 px-6 max-w-7xl mx-auto text-center">
+  <h2 className="text-3xl font-bold text-blue-400 mb-10">Planes y precios</h2>
+  <div className="grid md:grid-cols-3 gap-8">
+    {/* Plan Básico */}
+    <div className="bg-gray-800 p-6 rounded-xl shadow-lg border border-blue-500">
+      <h3 className="text-xl font-bold text-white mb-2">🚀 Plan Básico</h3>
+      <p className="text-green-400 text-3xl font-bold mb-4">$49<span className="text-sm text-gray-300">/mes</span></p>
+      <ul className="text-sm text-white space-y-2 mb-6 text-left">
+        <li>✔ 1 Bot personalizado</li>
+        <li>✔ Integración con WhatsApp</li>
+        <li>✔ Panel de control simple</li>
+        <li>✔ Soporte vía email</li>
+      </ul>
+      <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded w-full font-bold transition">Elegir este plan</button>
+    </div>
+
+    {/* Plan Pro */}
+    <div className="bg-yellow-600 p-6 rounded-xl shadow-lg border-4 border-yellow-300 transform scale-105">
+      <h3 className="text-xl font-bold text-black mb-2">🔥 Plan Profesional</h3>
+      <p className="text-black text-3xl font-bold mb-4">$99<span className="text-sm">/mes</span></p>
+      <ul className="text-sm text-black space-y-2 mb-6 text-left">
+        <li>✔ 1 Bot personalizado</li>
+        <li>✔ CRM integrado</li>
+        <li>✔ Dashboard y estadísticas</li>
+        <li>✔ Soporte prioritario</li>
+      </ul>
+      <button className="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded w-full font-bold transition">Recomendado</button>
+    </div>
+
+    {/* Plan Empresarial */}
+    <div className="bg-gray-800 p-6 rounded-xl shadow-lg border border-blue-500">
+      <h3 className="text-xl font-bold text-white mb-2">🏢 Plan Empresarial</h3>
+      <p className="text-green-400 text-3xl font-bold mb-4">Desde $199<span className="text-sm text-gray-300">/mes</span></p>
+      <ul className="text-sm text-white space-y-2 mb-6 text-left">
+        <li>✔ 1 Bot personalizado</li>
+        <li>✔ Módulos a medida (agenda, pagos, etc.)</li>
+        <li>✔ Integración con sistemas externos</li>
+        <li>✔ Soporte dedicado 24/7</li>
+      </ul>
+      <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded w-full font-bold transition">Solicitar demo</button>
+    </div>
+  </div>
+</section>
       <section className="py-16 px-6 max-w-5xl mx-auto">
         <h2 className="text-3xl font-bold mb-6 text-center text-blue-400">Clientes que ya confían en nosotros</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 justify-items-center">
@@ -67,44 +117,9 @@ const [enviando, setEnviando] = useState(false); // eslint-disable-line @typescr
             <Image src="/cliente4.png" alt="Ecovia" width={100} height={50} />
           </a>
         </div>
+      
       </section>
-<section className="py-20 px-6 max-w-5xl mx-auto">
-  <h2 className="text-3xl font-bold text-blue-400 text-center mb-6">¿Qué hacemos en GPTROBOTIC?</h2>
-  <p className="text-lg text-center mb-10 text-gray-300">
-    En GPT Robotic transformamos ideas en soluciones tecnológicas para negocios inteligentes y automatizados.
-  </p>
-<div className="bg-gray-800 text-white rounded-lg p-6 mb-6">
-  <h3 className="text-xl font-bold mb-2 text-yellow-400">
-    🧠 Desarrollo de Sistemas
-  </h3>
-  <p className="text-sm text-white">
-    Creamos soluciones tecnológicas a la medida para tu negocio: consultorios, clínicas, almacenes, puntos de venta, tiendas, sistemas contables y todo lo que necesite ser automatizado. Integramos software eficiente para hacer tu operación más inteligente.
-  </p>
-</div>
 
-
-
-  <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 text-left text-lg text-white">
-    <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
-      <h3 className="text-xl font-bold mb-2 text-yellow-400">🌐 Desarrollo Web</h3>
-      <p>Diseñamos y desarrollamos páginas web profesionales, modernas, responsivas y enfocadas en conversión.</p>
-    </div>
-
-    <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
-      <h3 className="text-xl font-bold mb-2 text-yellow-400">🗣️ Voice Bots & Chatbots</h3>
-      <p>Implementamos asistentes virtuales por voz o chat conectados a WhatsApp, Web o llamadas telefónicas, usando IA.</p>
-    </div>
-
-    <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
-      <h3 className="text-xl font-bold mb-2 text-yellow-400">📣 Marketing Digital</h3>
-      <p>Diseñamos e implementamos campañas publicitarias con segmentación precisa y resultados medibles.</p>
-    </div>
-    <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
-      <h3 className="text-xl font-bold mb-2 text-yellow-400">🔍 Posicionamiento SEO</h3>
-      <p>Mejoramos tu visibilidad en Google con estrategias de posicionamiento orgánico y contenido optimizado.</p>
-    </div>
-  </div>
-</section>
 <section className="py-20 px-6 max-w-5xl mx-auto">
   <h2 className="text-3xl font-bold text-blue-400 text-center mb-6">Soluciones para entidades financieras</h2>
   <p className="text-lg text-center mb-10 text-gray-300">

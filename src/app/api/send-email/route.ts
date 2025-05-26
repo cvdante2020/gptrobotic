@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
 export async function POST(req: Request) {
-  const { nombre, email, mensaje } = await req.json();
+  const { nombre, email, celular, mensaje, sector } = await req.json();
 
   if (!nombre || !email || !mensaje) {
     return NextResponse.json({ message: "Faltan campos obligatorios" }, { status: 400 });
@@ -29,15 +29,18 @@ export async function POST(req: Request) {
       subject: "Nuevo mensaje desde GPTROBOTIC",
       html: `
         <h2>Nuevo mensaje de contacto</h2>
+        <p><strong>Sector:</strong> ${sector || "General"}</p>
         <p><strong>Nombre:</strong> ${nombre}</p>
         <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Celular:</strong> ${celular}</p>
         <p><strong>Mensaje:</strong><br/>${mensaje}</p>
       `,
     });
 
     return NextResponse.json({ message: "Mensaje enviado con éxito" });
-  } catch (error) {
-    console.error("Error al enviar el correo:", (error as Error)?.message || error);
+  } catch (error: unknown) {
+    const mensajeError = error instanceof Error ? error.message : String(error);
+    console.error("Error al enviar el correo:", mensajeError);
     return NextResponse.json({ message: "Error al enviar el mensaje" }, { status: 500 });
   }
 }
