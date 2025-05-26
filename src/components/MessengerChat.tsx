@@ -5,13 +5,14 @@ import { useEffect } from "react";
 declare global {
   interface Window {
     fbAsyncInit: () => void;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     FB: any;
   }
 }
 
 export default function MessengerChat() {
   useEffect(() => {
-    const initFacebookChat = () => {
+    window.fbAsyncInit = function () {
       if (window.FB) {
         window.FB.init({
           xfbml: true,
@@ -20,20 +21,18 @@ export default function MessengerChat() {
       }
     };
 
-    // Asignar función de inicialización global
-    window.fbAsyncInit = initFacebookChat;
-
-    // Evitar duplicar script si ya está cargado
     if (!document.getElementById("facebook-jssdk")) {
       const script = document.createElement("script");
       script.id = "facebook-jssdk";
       script.src = "https://connect.facebook.net/es_ES/sdk/xfbml.customerchat.js";
       script.async = true;
       script.defer = true;
-      script.onload = initFacebookChat;
+      script.onload = () => {
+        if (window.FB) {
+          window.FB.XFBML.parse();
+        }
+      };
       document.body.appendChild(script);
-    } else {
-      initFacebookChat();
     }
   }, []);
 
