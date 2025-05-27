@@ -2,11 +2,18 @@
 
 import { useEffect } from "react";
 
+// Tipado mínimo para que TypeScript no marque error en `FB.init(...)`
+interface FacebookSDK {
+  init: (config: { xfbml: boolean; version: string }) => void;
+  XFBML?: {
+    parse: () => void;
+  };
+}
+
 declare global {
   interface Window {
     fbAsyncInit: () => void;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    FB: any;
+    FB: FacebookSDK;
   }
 }
 
@@ -28,7 +35,7 @@ export default function MessengerChat() {
       script.async = true;
       script.defer = true;
       script.onload = () => {
-        if (window.FB) {
+        if (window.FB?.XFBML?.parse) {
           window.FB.XFBML.parse();
         }
       };
