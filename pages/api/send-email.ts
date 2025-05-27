@@ -21,10 +21,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       host: "smtpout.secureserver.net",
       port: 465,
       secure: true,
-      auth: {
-        user: process.env.EMAIL_FROM || "",
-        pass: process.env.EMAIL_PASS || "",
-      },
+     auth: {
+  user: "cavillarreal@gptrobotic.com",
+  pass: "sIst2m1s202@.",
+},
+
       tls: {
         rejectUnauthorized: false,
       },
