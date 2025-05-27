@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import PlanesClinicas from "@/components/PlanesClinicas";
 import ContactoForm from "@/components/ContactoForm";
