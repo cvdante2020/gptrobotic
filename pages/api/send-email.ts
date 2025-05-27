@@ -30,20 +30,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         rejectUnauthorized: false,
       },
     });
+if (!process.env.EMAIL_TO) {
+  console.warn("⚠️ EMAIL_TO no definido, usando fallback");
+}
 
-    await transporter.sendMail({
-      from: `GPTROBOTIC <${process.env.EMAIL_FROM}>`,
-      to: process.env.EMAIL_TO,
-      subject: "Nuevo mensaje desde GPTROBOTIC",
-      html: `
-        <h2>Nuevo mensaje de contacto</h2>
-        <p><strong>Sector:</strong> ${sector || "General"}</p>
-        <p><strong>Nombre:</strong> ${nombre}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Celular:</strong> ${celular}</p>
-        <p><strong>Mensaje:</strong><br/>${mensaje}</p>
-      `,
-    });
+   await transporter.sendMail({
+  from: `GPTROBOTIC <${process.env.EMAIL_FROM || "cavillarreal@gptrobotic.com"}>`,
+  to: process.env.EMAIL_TO || "cavillarreal@gptrobotic.com", // 🔥 aquí evitamos error
+  subject: "Nuevo mensaje desde GPTROBOTIC",
+  html: `
+    <h2>Nuevo mensaje de contacto</h2>
+    <p><strong>Sector:</strong> ${sector || "General"}</p>
+    <p><strong>Nombre:</strong> ${nombre}</p>
+    <p><strong>Email:</strong> ${email}</p>
+    <p><strong>Celular:</strong> ${celular}</p>
+    <p><strong>Mensaje:</strong><br/>${mensaje}</p>
+  `,
+});
+
 
     return res.status(200).json({ message: "Mensaje enviado con éxito" });
   } catch (error: unknown) {
