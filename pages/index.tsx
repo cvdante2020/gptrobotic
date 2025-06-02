@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import Navbar from "../components/Navbar";
+import Navbar from "@/components/Navbar";
 import { useState } from "react";
 
 export default function Home() {
@@ -44,6 +44,38 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-gray-950 text-gray-100 relative">
       <Navbar />
+      <section className="py-16 px-6 bg-gray-900 text-white text-center">
+  <h2 className="text-3xl font-bold mb-4 text-green-400">📢 Sistema de Envío Masivo de WhatsApp</h2>
+  <div className="flex flex-col md:flex-row items-center justify-center gap-8">
+    <div className="md:w-1/2">
+      <img 
+        src="/whatsapp-crm.png" // Usa aquí la ruta de tu imagen o sube una a /public
+        alt="Sistema de Envío Masivo"
+        className="rounded-lg shadow-lg mx-auto"
+      />
+    </div>
+    <div className="md:w-1/2 text-left space-y-4">
+      <p className="text-lg">
+        📲 Lanza campañas de marketing, servicios y cobranza de manera automatizada.
+      </p>
+      <p className="text-xl font-bold text-green-400">
+        Desde <span className="text-yellow-400">$4.99 Mensual</span> + <span className="text-yellow-400">$25 setup pago único</span>.
+      </p>
+      <ul className="list-disc pl-6">
+        <li>✅ Marketing y promociones</li>
+        <li>✅ Servicios personalizados</li>
+        <li>✅ Cobranza y recordatorios</li>
+      </ul>
+      <a
+        href="#contacto"
+        className="inline-block mt-4 px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg shadow-lg transition"
+      >
+        Solicita tu demo ahora
+      </a>
+    </div>
+  </div>
+</section>
+
       <section className="py-20 px-6 text-center bg-black text-white relative">
         <Image src="/logo-gptrobotic-v2.png" alt="GPT Robotic Logo" width={130} height={130} className="mx-auto mb-4" />
         <h1 className="text-4xl md:text-5xl font-extrabold mb-4 text-white">GPTROBOTIC</h1>
