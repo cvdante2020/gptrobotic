@@ -56,10 +56,12 @@ export default function Home() {
     </div>
     <div className="md:w-1/2 text-left space-y-4">
       <p className="text-lg">
-        📲 Lanza campañas de marketing, servicios y cobranza de manera automatizada.
+        📲 Envia campañas de marketing, servicios y cobranza de manera automatizada
+        Comunica a tus clientes cambios o actualizaciones.     
+          **Respetamos las políticas de Meta
       </p>
       <p className="text-xl font-bold text-green-400">
-        Desde <span className="text-yellow-400">$4.99 Mensual</span> + <span className="text-yellow-400">$25 setup pago único</span>.
+        Desde <span className="text-yellow-400">$9.99 Mensual</span>.
       </p>
       <ul className="list-disc pl-6">
         <li>✅ Marketing y promociones</li>
@@ -147,6 +149,12 @@ export default function Home() {
           </a>
           <a href="https://ecovia.space" target="_blank" rel="noopener noreferrer" className="bg-gray-800 p-4 rounded-lg shadow-md hover:scale-105 transition">
             <Image src="/cliente4.png" alt="Ecovia" width={100} height={50} />
+          </a>
+           <a href="https://impulsuscorp.com/" target="_blank" rel="noopener noreferrer" className="bg-gray-800 p-4 rounded-lg shadow-md hover:scale-105 transition">
+            <Image src="/cliente6.png" alt="Impulsus" width={100} height={50} />
+          </a>
+          <a href="https://boxmedia.com.ec/" target="_blank" rel="noopener noreferrer" className="bg-gray-800 p-4 rounded-lg shadow-md hover:scale-105 transition">
+            <Image src="/cliente7.png" alt="Boxmedia" width={100} height={50} />
           </a>
         </div>
       
@@ -246,7 +254,7 @@ export default function Home() {
 
 <div className="text-center mt-10">
   <p className="text-xl font-bold text-green-400">
-    🥇 ¡Primeros 3 meses completamente <span className="underline text-white">gratis</span>!
+    🥇 ¡Primeros 3 meses completamente <span className="underline text-white">gratis en CRM</span>!
   </p>
   <button className="mt-4 px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg shadow-lg transition-all">
     Solicita tu sistema CRM ahora
