@@ -4,8 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import { useState } from "react";
+import { useRouter } from "next/router";
+
 
 export default function Home() {
+  const router = useRouter();
   const [form, setForm] = useState({
     nombre: "",
     email: "",
@@ -13,6 +16,10 @@ export default function Home() {
     mensaje: ""
   });
   const [enviando, setEnviando] = useState(false);
+ const [showVisaLogin, setShowVisaLogin] = useState(false);
+  const [visaLogin, setVisaLogin] = useState({ username: "", password: "" });
+  const [visaErr, setVisaErr] = useState<string | null>(null);
+  const [visaLoading, setVisaLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -38,6 +45,28 @@ export default function Home() {
     } catch (error) {
       console.error("Error al enviar mensaje:", error);
       alert("No se pudo enviar el mensaje. Inténtalo de nuevo más tarde.");
+    }
+  };
+ const handleVisaLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setVisaErr(null);
+    setVisaLoading(true);
+
+    try {
+      const r = await fetch("/api/visa/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(visaLogin)
+      });
+
+      const j = await r.json();
+      setVisaLoading(false);
+
+      if (!r.ok) return setVisaErr(j.error || "Error de acceso");
+      router.push("/visa");
+    } catch (err) {
+      setVisaLoading(false);
+      setVisaErr("No se pudo validar. Intenta de nuevo.");
     }
   };
 
@@ -77,6 +106,85 @@ export default function Home() {
     </div>
   </div>
 </section>
+
+
+      {/* ✅ NUEVA SECCIÓN VISA AMERICANA (AQUÍ VA) */}
+      <section className="py-20 px-6 bg-gradient-to-b from-black to-gray-950 text-white text-center">
+        <h2 className="text-3xl md:text-4xl font-extrabold mb-4 text-yellow-400">
+          🇺🇸 Visa Americana – Evalúa tu situación
+        </h2>
+
+        <p className="text-lg md:text-xl max-w-3xl mx-auto text-gray-200 mb-8">
+          Responde una evaluación rápida y obtén un <b>score informativo</b> de fortaleza del perfil, Valor $ 1,00 USD.
+          <span className="block text-sm text-gray-400 mt-2">
+            No garantiza aprobación. No es asesoría legal.
+          </span>
+        </p>
+<div className="flex flex-col sm:flex-row gap-4 justify-center">
+  <a
+    href="https://wa.me/593963203102?text=Hola%20GPTROBOTIC,%20quiero%20PAGAR%20la%20evaluaci%C3%B3n%20de%20Visa%20Americana%20y%20recibir%20usuario%20y%20clave."
+    target="_blank"
+    rel="noopener noreferrer"
+    className="inline-block px-8 py-4 rounded-xl font-extrabold text-lg bg-green-500 hover:bg-green-600 text-black shadow-xl transition"
+  >
+    PAGAR EVALUACIÓN
+  </a>
+
+  <button
+    onClick={() => {
+      setShowVisaLogin(true);
+      setVisaErr(null);
+    }}
+    className="px-8 py-4 rounded-xl font-extrabold text-lg bg-yellow-500 hover:bg-yellow-600 text-black shadow-xl transition"
+  >
+    YA TENGO USUARIO Y CLAVE
+  </button>
+</div>
+
+
+        {showVisaLogin && (
+          <div className="max-w-md mx-auto mt-10 bg-gray-900 border border-gray-700 rounded-2xl p-6 text-left shadow-2xl">
+            <h3 className="text-xl font-bold mb-2">Acceso (solo con usuario/clave pagados)</h3>
+            <p className="text-sm text-gray-300 mb-5">
+              Si ya pagaste y recibiste tus credenciales, ingrésalas aquí..
+            </p>
+
+            <form onSubmit={handleVisaLogin} className="space-y-4">
+              <div>
+                <label className="text-sm font-semibold">Usuario</label>
+                <input
+                  value={visaLogin.username}
+                  onChange={(e) => setVisaLogin((p) => ({ ...p, username: e.target.value }))}
+                  className="w-full px-4 py-2 border border-gray-700 bg-gray-800 text-white rounded"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="text-sm font-semibold">Clave</label>
+                <input
+                  type="password"
+                  value={visaLogin.password}
+                  onChange={(e) => setVisaLogin((p) => ({ ...p, password: e.target.value }))}
+                  className="w-full px-4 py-2 border border-gray-700 bg-gray-800 text-white rounded"
+                  required
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={visaLoading}
+                className="w-full py-3 rounded-lg font-extrabold bg-blue-600 hover:bg-blue-700 transition"
+              >
+                {visaLoading ? "Validando..." : "Entrar"}
+              </button>
+
+              {visaErr && <div className="text-red-400 font-bold">{visaErr}</div>}
+            </form>
+          </div>
+        )}
+      </section>
+
 
       <section className="py-20 px-6 text-center bg-black text-white relative">
         <Image src="/logo-gptrobotic-v2.png" alt="GPT Robotic Logo" width={130} height={130} className="mx-auto mb-4" />
