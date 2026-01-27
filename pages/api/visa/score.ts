@@ -12,22 +12,22 @@ const HARD_FLAGS = [
     when: (a: any) => a["overstay_history"] === "yes",
     cap: 35,
     eligible: false,
-    message: "Reportas sobreestadía previa. Factor de alto impacto."
+    message: "Reportas sobreestadía previa. Factor de alto impacto.",
   },
   {
     id: "flag_illegal_us",
     when: (a: any) => a["illegal_presence_us"] === "yes",
     cap: 25,
     eligible: false,
-    message: "Presencia irregular previa en EE.UU. Factor crítico."
+    message: "Presencia irregular previa en EE.UU. Factor crítico.",
   },
   {
     id: "flag_intent_work",
     when: (a: any) => a["intent_work_or_study"] === "yes",
     cap: 20,
     eligible: false,
-    message: "Intención de trabajar/estudiar con B1/B2 no corresponde. Alto riesgo."
-  }
+    message: "Intención de trabajar/estudiar con B1/B2 no corresponde. Alto riesgo.",
+  },
 ];
 
 function bucket(score: number) {
@@ -38,103 +38,155 @@ function bucket(score: number) {
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
+  try {
+    if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
-  const signed = getCookie(req, visaCookieName);
-  const sessionId = signed ? verify(signed) : null;
-  if (!sessionId) return res.status(401).json({ error: "Unauthorized" });
+    // ✅ Sesión desde cookie firmada
+    const signed = getCookie(req, visaCookieName);
+    const sessionId = signed ? verify(signed) : null;
+    if (!sessionId) return res.status(401).json({ error: "Unauthorized" });
 
-  const { profile, questions, answers, policy_version } = req.body || {};
-  if (!profile || !Array.isArray(questions) || typeof answers !== "object") {
-    return res.status(400).json({ error: "Missing profile/questions/answers" });
-  }
-
-  // Validaciones mínimas de perfil (pasaporte libre)
-  const full_name = String(profile.full_name || "").trim();
-  const id_number = String(profile.id_number || "").trim();
-  const email = String(profile.email || "").trim();
-  const phone = String(profile.phone || "").trim();
-
-  if (full_name.length < 5) return res.status(400).json({ error: "Nombre inválido" });
-  if (id_number.length < 5 || id_number.length > 20) return res.status(400).json({ error: "Cédula/Pasaporte inválido" });
-  if (!email.includes("@") || email.length < 6) return res.status(400).json({ error: "Email inválido" });
-  if (phone.length < 7 || phone.length > 20) return res.status(400).json({ error: "Celular inválido" });
-
-  const bank = buildQuestionBank();
-  const bankMap = new Map(bank.map(q => [q.id, q]));
-
-  let raw = 0;
-  let min = 0;
-  let max = 0;
-
-  const contributions: any[] = [];
-
-  for (const qid of questions) {
-    const q = bankMap.get(qid);
-    if (!q) return res.status(400).json({ error: `Unknown question: ${qid}` });
-
-    const a = answers[qid];
-    if (!a) return res.status(400).json({ error: `Missing answer for: ${qid}` });
-
-    const opt = q.options.find(o => o.value === a);
-    if (!opt) return res.status(400).json({ error: `Invalid option for: ${qid}` });
-
-    raw += opt.score;
-    min += Math.min(...q.options.map(o => o.score));
-    max += Math.max(...q.options.map(o => o.score));
-
-    if (opt.score !== 0) contributions.push({ label: q.label, section: q.section, delta: opt.score, why: opt.why });
-  }
-
-  const denom = (max - min) || 1;
-  let score = Math.round(((raw - min) / denom) * 100);
-  score = Math.max(0, Math.min(100, score));
-
-  const flags: any[] = [];
-  let scoreCap: number | null = null;
-  let eligibleOverride: boolean | null = null;
-
-  for (const f of HARD_FLAGS) {
-    if (f.when(answers)) {
-      flags.push({ id: f.id, message: f.message });
-      scoreCap = scoreCap === null ? f.cap : Math.min(scoreCap, f.cap);
-      eligibleOverride = false;
+    const { profile, questions, answers, policy_version } = req.body || {};
+    if (!profile || !Array.isArray(questions) || typeof answers !== "object") {
+      return res.status(400).json({ error: "Missing profile/questions/answers" });
     }
+
+    // ✅ Validaciones mínimas de perfil
+    const full_name = String(profile.full_name || "").trim();
+    const id_number = String(profile.id_number || "").trim();
+    const email = String(profile.email || "").trim();
+    const phone = String(profile.phone || "").trim();
+
+    if (full_name.length < 5) return res.status(400).json({ error: "Nombre inválido" });
+    if (id_number.length < 5 || id_number.length > 20)
+      return res.status(400).json({ error: "Cédula/Pasaporte inválido" });
+    if (!email.includes("@") || email.length < 6) return res.status(400).json({ error: "Email inválido" });
+    if (phone.length < 7 || phone.length > 20) return res.status(400).json({ error: "Celular inválido" });
+
+    // =========================================================
+    // ✅ NUEVO: Resolver username dueño de la sesión
+    // =========================================================
+    // Asume tabla: visa_sessions(id, username)
+    // Si tu tabla o PK se llaman distinto, cambia aquí:
+    const { data: sess, error: sessErr } = await supabaseAdmin
+      .from("visa_sessions")
+      .select("username")
+      .eq("id", sessionId)
+      .single();
+
+    if (sessErr || !sess?.username) {
+      return res.status(401).json({ error: "Sesión inválida (sin usuario)" });
+    }
+
+    const username = String(sess.username);
+
+    // =========================================================
+    // ✅ NUEVO: Consumir 1 intento (máx 3 o 4) antes de calcular/guardar
+    // Requiere RPC en Supabase: consume_visa_attempt(p_username text)
+    // =========================================================
+    const { data: consumeData, error: consumeErr } = await supabaseAdmin.rpc("consume_visa_attempt", {
+      p_username: username,
+    });
+
+    if (consumeErr) {
+      return res.status(500).json({ error: consumeErr.message });
+    }
+
+    const consumeRow = consumeData?.[0];
+    if (!consumeRow?.ok) {
+      return res.status(403).json({
+        error: "Límite alcanzado: ya usaste tus intentos disponibles.",
+        remaining_attempts: 0,
+      });
+    }
+
+    const remainingAttempts = Number(consumeRow.remaining ?? 0);
+
+    // ✅ Banco de preguntas y scoring (igual que antes)
+    const bank = buildQuestionBank();
+    const bankMap = new Map(bank.map((q) => [q.id, q]));
+
+    let raw = 0;
+    let min = 0;
+    let max = 0;
+
+    const contributions: any[] = [];
+
+    for (const qid of questions) {
+      const q = bankMap.get(qid);
+      if (!q) return res.status(400).json({ error: `Unknown question: ${qid}` });
+
+      const a = (answers as any)[qid];
+      if (!a) return res.status(400).json({ error: `Missing answer for: ${qid}` });
+
+      const opt = q.options.find((o: any) => o.value === a);
+      if (!opt) return res.status(400).json({ error: `Invalid option for: ${qid}` });
+
+      raw += opt.score;
+      min += Math.min(...q.options.map((o: any) => o.score));
+      max += Math.max(...q.options.map((o: any) => o.score));
+
+      if (opt.score !== 0)
+        contributions.push({ label: q.label, section: q.section, delta: opt.score, why: opt.why });
+    }
+
+    const denom = max - min || 1;
+    let score = Math.round(((raw - min) / denom) * 100);
+    score = Math.max(0, Math.min(100, score));
+
+    const flags: any[] = [];
+    let scoreCap: number | null = null;
+    let eligibleOverride: boolean | null = null;
+
+    for (const f of HARD_FLAGS) {
+      if (f.when(answers)) {
+        flags.push({ id: f.id, message: f.message });
+        scoreCap = scoreCap === null ? f.cap : Math.min(scoreCap, f.cap);
+        eligibleOverride = false;
+      }
+    }
+
+    if (scoreCap !== null) score = Math.min(score, scoreCap);
+
+    const b = bucket(score);
+    let eligible = score >= THRESHOLD;
+    if (eligibleOverride !== null) eligible = eligibleOverride;
+
+    contributions.sort((x, y) => Math.abs(y.delta) - Math.abs(x.delta));
+    const top_factors = contributions.slice(0, 8);
+
+    // ✅ Guardar intento (incluyendo profile) - igual que antes
+    const { error } = await supabaseAdmin.from("visa_attempts").insert([
+      {
+        session_id: sessionId,
+        policy_version: policy_version || "1.0",
+        profile: { full_name, id_number, email, phone },
+        questions,
+        answers,
+        score,
+        bucket: b,
+        eligible_for_phase2: eligible,
+        threshold: THRESHOLD,
+        flags,
+        top_factors,
+        // opcional: guardar username para auditoría (si tu tabla lo tiene)
+        // username,
+      },
+    ]);
+
+    if (error) return res.status(500).json({ error: error.message });
+
+    return res.json({
+      score,
+      bucket: b,
+      eligible_for_phase2: eligible,
+      threshold: THRESHOLD,
+      flags,
+      top_factors,
+      remaining_attempts: remainingAttempts,
+      disclaimer: "Estimación informativa. No garantiza aprobación. No es asesoría legal.",
+    });
+  } catch (e: any) {
+    return res.status(500).json({ error: e?.message || "Server error" });
   }
-
-  if (scoreCap !== null) score = Math.min(score, scoreCap);
-
-  const b = bucket(score);
-  let eligible = score >= THRESHOLD;
-  if (eligibleOverride !== null) eligible = eligibleOverride;
-
-  contributions.sort((x, y) => Math.abs(y.delta) - Math.abs(x.delta));
-  const top_factors = contributions.slice(0, 8);
-
-  // Guardar intento (incluyendo profile)
-  const { error } = await supabaseAdmin.from("visa_attempts").insert([{
-    session_id: sessionId,
-    policy_version: policy_version || "1.0",
-    profile: { full_name, id_number, email, phone },
-    questions,
-    answers,
-    score,
-    bucket: b,
-    eligible_for_phase2: eligible,
-    threshold: THRESHOLD,
-    flags,
-    top_factors
-  }]);
-
-  if (error) return res.status(500).json({ error: error.message });
-
-  return res.json({
-    score,
-    bucket: b,
-    eligible_for_phase2: eligible,
-    threshold: THRESHOLD,
-    flags,
-    top_factors,
-    disclaimer: "Estimación informativa. No garantiza aprobación. No es asesoría legal."
-  });
 }

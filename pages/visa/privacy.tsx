@@ -30,7 +30,7 @@ export default function VisaPrivacy() {
       <p>Acceso, rectificación, actualización, eliminación u oposición conforme a la LOPDP.</p>
 
       <h3>7. Contacto</h3>
-      <p>Soporte: <b>soporte@tudominio.com</b> (cámbialo por tu correo real)</p>
+      <p>Soporte: <b>soporte@gptrobotic.com</b> (cámbialo por tu correo real)</p>
 
       <hr />
       <p style={{ opacity: 0.8 }}>

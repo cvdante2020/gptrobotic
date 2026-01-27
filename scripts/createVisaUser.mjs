@@ -12,7 +12,7 @@ function loadEnvLocal() {
   }
 
   const content = fs.readFileSync(envPath, "utf8");
-  content.split(/\r?\n/).forEach(line => {
+  content.split(/\r?\n/).forEach((line) => {
     if (!line || line.startsWith("#")) return;
     const idx = line.indexOf("=");
     if (idx === -1) return;
@@ -42,16 +42,27 @@ if (!url || !serviceKey) {
 }
 
 const supabase = createClient(url, serviceKey, {
-  auth: { persistSession: false }
+  auth: { persistSession: false },
 });
 
 /* ===== INPUT ===== */
 const username = process.argv[2];
 const password = process.argv[3];
+// nuevo: intentos máximos (opcional)
+const attemptsMaxArg = process.argv[4]; // "3" o "4"
+const attempts_max = attemptsMaxArg ? parseInt(attemptsMaxArg, 10) : 3;
 
 if (!username || !password) {
   console.log("Uso:");
-  console.log("node scripts/createVisaUser.mjs <usuario> <clave>");
+  console.log("node scripts/createVisaUser.mjs <usuario> <clave> [attemptsMax]");
+  console.log("Ej:");
+  console.log("node scripts/createVisaUser.mjs cliente001 ClaveSegura123 3");
+  console.log("node scripts/createVisaUser.mjs cliente002 ClaveSegura123 4");
+  process.exit(1);
+}
+
+if (![3, 4].includes(attempts_max)) {
+  console.error("❌ attemptsMax inválido. Usa 3 o 4.");
   process.exit(1);
 }
 
@@ -60,8 +71,16 @@ const password_hash = await bcrypt.hash(password, 10);
 
 const { data, error } = await supabase
   .from("visa_users")
-  .insert([{ username, password_hash, is_active: true }])
-  .select("id, username, is_active, created_at")
+  .insert([
+    {
+      username,
+      password_hash,
+      is_active: true,
+      attempts_used: 0,
+      attempts_max, // 👈 aquí defines 3 o 4
+    },
+  ])
+  .select("id, username, is_active, attempts_used, attempts_max, created_at")
   .single();
 
 if (error) {

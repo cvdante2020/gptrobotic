@@ -108,82 +108,95 @@ export default function Home() {
 </section>
 
 
-      {/* ✅ NUEVA SECCIÓN VISA AMERICANA (AQUÍ VA) */}
-      <section className="py-20 px-6 bg-gradient-to-b from-black to-gray-950 text-white text-center">
-        <h2 className="text-3xl md:text-4xl font-extrabold mb-4 text-yellow-400">
-          🇺🇸 Visa Americana – Evalúa tu situación
-        </h2>
+   {/* ✅ NUEVA SECCIÓN VISA AMERICANA (AQUÍ VA) */}
+<section className="py-20 px-6 bg-gradient-to-b from-black to-gray-950 text-white text-center">
+  <h2 className="text-3xl md:text-4xl font-extrabold mb-4 text-yellow-400">
+    🇺🇸 ¿Qué tan fuerte es tu perfil para la Visa Americana?
+  </h2>
 
-        <p className="text-lg md:text-xl max-w-3xl mx-auto text-gray-200 mb-8">
-          Responde una evaluación rápida y obtén un <b>score informativo</b> de fortaleza del perfil, Valor $ 1,00 USD.
-          <span className="block text-sm text-gray-400 mt-2">
-            No garantiza aprobación. No es asesoría legal.
-          </span>
-        </p>
-<div className="flex flex-col sm:flex-row gap-4 justify-center">
-  <a
-    href="https://wa.me/593963203102?text=Hola%20GPTROBOTIC,%20quiero%20PAGAR%20la%20evaluaci%C3%B3n%20de%20Visa%20Americana%20y%20recibir%20usuario%20y%20clave."
-    target="_blank"
-    rel="noopener noreferrer"
-    className="inline-block px-8 py-4 rounded-xl font-extrabold text-lg bg-green-500 hover:bg-green-600 text-black shadow-xl transition"
-  >
-    PAGAR EVALUACIÓN
-  </a>
+  <p className="text-lg md:text-xl max-w-3xl mx-auto text-gray-200 mb-8">
+    Descúbrelo en minutos con una <b>evaluación rápida e informativa</b> que analiza la fortaleza real de tu perfil
+    antes de iniciar el proceso consular.
+    <br />
+    <span className="block mt-2 text-yellow-300 font-bold">
+      Inversión única: $1,00 USD
+    </span>
+    <span className="block text-sm text-gray-400 mt-3">
+      No garantiza aprobación. No constituye asesoría legal ni migratoria.
+    </span>
+  </p>
 
-  <button
-    onClick={() => {
-      setShowVisaLogin(true);
-      setVisaErr(null);
-    }}
-    className="px-8 py-4 rounded-xl font-extrabold text-lg bg-yellow-500 hover:bg-yellow-600 text-black shadow-xl transition"
-  >
-    YA TENGO USUARIO Y CLAVE
-  </button>
-</div>
+  <div className="flex flex-col sm:flex-row gap-4 justify-center">
+    <a
+      href="https://wa.me/593963203102?text=Hola%20GPTROBOTIC,%20quiero%20PAGAR%20la%20evaluaci%C3%B3n%20de%20Visa%20Americana%20y%20recibir%20usuario%20y%20clave."
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-block px-8 py-4 rounded-xl font-extrabold text-lg bg-green-500 hover:bg-green-600 text-black shadow-xl transition"
+    >
+      💳 PAGAR Y OBTENER MI SCORE
+    </a>
 
+    <button
+      onClick={() => {
+        setShowVisaLogin(true);
+        setVisaErr(null);
+      }}
+      className="px-8 py-4 rounded-xl font-extrabold text-lg bg-yellow-500 hover:bg-yellow-600 text-black shadow-xl transition"
+    >
+      🔐 YA TENGO USUARIO Y CLAVE
+    </button>
+  </div>
 
-        {showVisaLogin && (
-          <div className="max-w-md mx-auto mt-10 bg-gray-900 border border-gray-700 rounded-2xl p-6 text-left shadow-2xl">
-            <h3 className="text-xl font-bold mb-2">Acceso (solo con usuario/clave pagados)</h3>
-            <p className="text-sm text-gray-300 mb-5">
-              Si ya pagaste y recibiste tus credenciales, ingrésalas aquí..
-            </p>
+  {showVisaLogin && (
+    <div className="max-w-md mx-auto mt-10 bg-gray-900 border border-gray-700 rounded-2xl p-6 text-left shadow-2xl">
+      <h3 className="text-xl font-bold mb-2">
+        Acceso a tu evaluación
+      </h3>
+      <p className="text-sm text-gray-300 mb-5">
+        Ingresa el usuario y clave que recibiste luego del pago para continuar con tu evaluación.
+      </p>
 
-            <form onSubmit={handleVisaLogin} className="space-y-4">
-              <div>
-                <label className="text-sm font-semibold">Usuario</label>
-                <input
-                  value={visaLogin.username}
-                  onChange={(e) => setVisaLogin((p) => ({ ...p, username: e.target.value }))}
-                  className="w-full px-4 py-2 border border-gray-700 bg-gray-800 text-white rounded"
-                  required
-                />
-              </div>
+      <form onSubmit={handleVisaLogin} className="space-y-4">
+        <div>
+          <label className="text-sm font-semibold">Usuario</label>
+          <input
+            value={visaLogin.username}
+            onChange={(e) =>
+              setVisaLogin((p) => ({ ...p, username: e.target.value }))
+            }
+            className="w-full px-4 py-2 border border-gray-700 bg-gray-800 text-white rounded"
+            required
+          />
+        </div>
 
-              <div>
-                <label className="text-sm font-semibold">Clave</label>
-                <input
-                  type="password"
-                  value={visaLogin.password}
-                  onChange={(e) => setVisaLogin((p) => ({ ...p, password: e.target.value }))}
-                  className="w-full px-4 py-2 border border-gray-700 bg-gray-800 text-white rounded"
-                  required
-                />
-              </div>
+        <div>
+          <label className="text-sm font-semibold">Clave</label>
+          <input
+            type="password"
+            value={visaLogin.password}
+            onChange={(e) =>
+              setVisaLogin((p) => ({ ...p, password: e.target.value }))
+            }
+            className="w-full px-4 py-2 border border-gray-700 bg-gray-800 text-white rounded"
+            required
+          />
+        </div>
 
-              <button
-                type="submit"
-                disabled={visaLoading}
-                className="w-full py-3 rounded-lg font-extrabold bg-blue-600 hover:bg-blue-700 transition"
-              >
-                {visaLoading ? "Validando..." : "Entrar"}
-              </button>
+        <button
+          type="submit"
+          disabled={visaLoading}
+          className="w-full py-3 rounded-lg font-extrabold bg-blue-600 hover:bg-blue-700 transition"
+        >
+          {visaLoading ? "Validando acceso..." : "INGRESAR A MI EVALUACIÓN"}
+        </button>
 
-              {visaErr && <div className="text-red-400 font-bold">{visaErr}</div>}
-            </form>
-          </div>
+        {visaErr && (
+          <div className="text-red-400 font-bold">{visaErr}</div>
         )}
-      </section>
+      </form>
+    </div>
+  )}
+</section>
 
 
       <section className="py-20 px-6 text-center bg-black text-white relative">

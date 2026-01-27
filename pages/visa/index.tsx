@@ -254,28 +254,75 @@ export default function VisaPage() {
         Estimación informativa del perfil. <b>No garantiza aprobación</b>.
       </p>
 
-      {!consentOk && (
-        <div style={cardStyle}>
-          <h3 style={{ marginTop: 0 }}>Consentimiento (LOPDP – Ecuador)</h3>
-          <p style={{ opacity: 0.9 }}>
-            Para iniciar, debes aceptar el tratamiento de datos personales.{" "}
-            <Link href="/visa/privacy" target="_blank" style={{ textDecoration: "underline" }}>
-              Leer política
-            </Link>
-          </p>
+     {!consentOk && (
+  <div style={cardStyle}>
+    <h3
+      style={{
+        marginTop: 0,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        gap: 12,
+      }}
+    >
+      <span style={{ fontSize: 22, fontWeight: 900 }}>
+        🇺🇸 Visa Americana – Consentimiento 🇺🇸
+      </span>
+      <span style={{ opacity: 0.9, fontSize: 20 }}>🇺🇸</span>
+    </h3>
 
-          <label style={{ display: "flex", gap: 10, alignItems: "center" }}>
-            <input type="checkbox" checked={consentChecked} onChange={(e) => setConsentChecked(e.target.checked)} />
-            Acepto el tratamiento de datos.
-          </label>
+    {/* Mensaje motivacional / advertencia positiva */}
+    <div
+      style={{
+        marginTop: 10,
+        padding: "10px 12px",
+        borderRadius: 12,
+        background: "rgba(255, 255, 255, 0.06)",
+        border: "1px solid rgba(255, 255, 255, 0.10)",
+      }}
+    >
+      <div style={{ fontWeight: 900, marginBottom: 4 }}>
+        ✅ Responde con honestidad y a conciencia
+      </div>
+      <div style={{ opacity: 0.9, lineHeight: 1.35 }}>
+        Mientras más precisas sean tus respuestas, <b>mejor será la estimación</b> del score y las recomendaciones
+        informativas.
+      </div>
+    </div>
 
-          <button onClick={saveConsentAndLoad} disabled={loading} style={{ marginTop: 14, ...btnPrimary }}>
-            {loading ? "Procesando..." : "Aceptar y continuar"}
-          </button>
+    <p style={{ opacity: 0.9, marginTop: 12 }}>
+      Para iniciar, debes aceptar el tratamiento de datos personales según la{" "}
+      <b>LOPDP (Ecuador)</b>.{" "}
+      <Link href="/visa/privacy" target="_blank" style={{ textDecoration: "underline" }}>
+        Leer política
+      </Link>
+      .
+      <span style={{ display: "block", marginTop: 6, fontSize: 13, opacity: 0.75 }}>
+        No garantiza aprobación. No constituye asesoría legal ni migratoria.
+      </span>
+    </p>
 
-          {err && <div style={{ marginTop: 12, color: "#ff6b6b", fontWeight: 800 }}>{err}</div>}
-        </div>
-      )}
+    <label style={{ display: "flex", gap: 10, alignItems: "center", marginTop: 6 }}>
+      <input
+        type="checkbox"
+        checked={consentChecked}
+        onChange={(e) => setConsentChecked(e.target.checked)}
+      />
+      <span style={{ fontWeight: 700 }}>Acepto el tratamiento de datos.</span>
+    </label>
+
+    <button
+      onClick={saveConsentAndLoad}
+      disabled={loading}
+      style={{ marginTop: 14, ...btnPrimary }}
+    >
+      {loading ? "Procesando..." : "Aceptar y continuar 🇺🇸"}
+    </button>
+
+    {err && <div style={{ marginTop: 12, color: "#ff6b6b", fontWeight: 800 }}>{err}</div>}
+  </div>
+)}
+
 
       {consentOk && (
         <div style={{ display: "grid", gap: 14 }}>
