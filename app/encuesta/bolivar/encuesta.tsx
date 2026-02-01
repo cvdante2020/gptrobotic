@@ -47,7 +47,7 @@ const CANDIDATES: CandidateOption[] = [
     code: "C",
     name: "Pilar Noriega",
     movement: "Revolución Ciudadana",
-    list: "Lista 35",
+    list: "Lista 5",
     color: "#38BDF8", // celeste
   },
   {
