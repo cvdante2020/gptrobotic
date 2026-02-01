@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { useState } from "react";
 
+
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -16,20 +17,31 @@ export default function Navbar() {
             ☰
           </button>
         </div>
-        <div className="hidden md:flex gap-6">
-          <Link href="/" className="hover:text-yellow-400">Inicio</Link>
-          <Link href="/clinicas" className="hover:text-yellow-400">Clínicas</Link>
-          <Link href="/autos" className="hover:text-yellow-400">Patios de Autos</Link>
-          <a href="#contacto" className="hover:text-yellow-400">Contacto</a>
-          <Link
-            href="https://www.facebook.com/gptrobotic"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-blue-400"
-          >
-            Facebook
-          </Link>
-        </div>
+       <div className="hidden md:flex gap-6 items-center">
+  <Link href="/" className="hover:text-yellow-400">Inicio</Link>
+  <Link href="/clinicas" className="hover:text-yellow-400">Clínicas</Link>
+  <Link href="/autos" className="hover:text-yellow-400">Patios de Autos</Link>
+
+  <Link href="/facturacion" className="text-yellow-300 hover:text-yellow-200">
+    Facturación electrónica
+  </Link>
+
+  <Link href="/encuesta/bolivar" className="text-yellow-300 hover:text-yellow-200">
+    Encuesta Bolívar
+  </Link>
+
+  <a href="#contacto" className="hover:text-yellow-400">Contacto</a>
+
+  <Link
+    href="https://www.facebook.com/gptrobotic"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="hover:text-blue-400"
+  >
+    Facebook
+  </Link>
+</div>
+
       </div>
 
       {/* Mobile menu */}
@@ -38,8 +50,12 @@ export default function Navbar() {
           <Link href="/" className="hover:text-yellow-400" onClick={() => setIsOpen(false)}>Inicio</Link>
           <Link href="/clinicas" className="hover:text-yellow-400" onClick={() => setIsOpen(false)}>Clínicas</Link>
           <Link href="/autos" className="hover:text-yellow-400" onClick={() => setIsOpen(false)}>Patios de Autos</Link>
+          <Link href="/facturacion" className="text-yellow-300 hover:text-yellow-200">
+          Facturación electrónica
+        </Link>
           <a href="#contacto" className="hover:text-yellow-400" onClick={() => setIsOpen(false)}>Contacto</a>
           <Link
+          
             href="https://www.facebook.com/gptrobotic"
             target="_blank"
             rel="noopener noreferrer"
