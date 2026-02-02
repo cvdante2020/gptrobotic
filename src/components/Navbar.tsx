@@ -26,9 +26,7 @@ export default function Navbar() {
     Facturación electrónica
   </Link>
 
-  <Link href="/encuesta/bolivar" className="text-yellow-300 hover:text-yellow-200">
-    Encuesta Bolívar
-  </Link>
+ 
 
   <a href="#contacto" className="hover:text-yellow-400">Contacto</a>
 

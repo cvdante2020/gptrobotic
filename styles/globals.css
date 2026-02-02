@@ -12,6 +12,10 @@
   --font-mono: var(--font-geist-mono);
 }
 
+@source "../app/**/*.{js,ts,jsx,tsx}";
+@source "../pages/**/*.{js,ts,jsx,tsx}";
+
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
