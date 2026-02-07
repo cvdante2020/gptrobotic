@@ -361,6 +361,15 @@ export default function EncuestaBolivar() {
 
   return (
     <div className="space-y-5">
+         {/* HEADER */}
+    <header className="bg-gray-900 border border-gray-800 rounded-xl p-5">
+      <h1 className="text-xl sm:text-2xl font-bold text-white">
+        Encuesta Alcaldía de Bolívar 2027
+      </h1>
+      <p className="text-sm text-gray-300 mt-1">
+        Anónima • Uso estadístico • 2–3 minutos
+      </p>
+    </header>
       <div className="flex items-center justify-between">
         <div className="text-sm text-gray-300">Progreso</div>
         <div className="text-sm text-gray-400">{progress}%</div>
