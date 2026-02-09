@@ -344,6 +344,171 @@ export default function Home() {
   Soluciones CRM Cloud para tu Negocio
 </h2>
 
+{/* ✅ SECCIÓN FACTURACIÓN ELECTRÓNICA (FULL WIDTH PRO) */}
+<section className="relative w-full overflow-hidden text-white">
+  {/* Fondo animado */}
+  <div className="absolute inset-0 bg-[#05070c]" />
+  <div className="absolute inset-0 opacity-70">
+    <div className="absolute -top-40 -left-40 h-[520px] w-[520px] rounded-full bg-yellow-500/25 blur-3xl animate-pulse" />
+    <div className="absolute top-10 -right-40 h-[520px] w-[520px] rounded-full bg-blue-500/25 blur-3xl animate-pulse" />
+    <div className="absolute -bottom-40 left-1/3 h-[520px] w-[520px] rounded-full bg-green-500/20 blur-3xl animate-pulse" />
+  </div>
+
+  {/* Patrón sutil */}
+  <div
+    className="absolute inset-0 opacity-[0.12]"
+    style={{
+      backgroundImage:
+        "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.22) 1px, transparent 0)",
+      backgroundSize: "22px 22px",
+    }}
+  />
+
+  {/* Glow en bordes */}
+  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-yellow-400/70 to-transparent" />
+  <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-blue-400/60 to-transparent" />
+
+  {/* Banda promo */}
+  <div className="relative z-10 w-full">
+    <div className="w-full bg-gradient-to-r from-yellow-500/15 via-blue-500/15 to-green-500/15 border-y border-white/10">
+      <div className="mx-auto max-w-7xl px-6 py-3 flex flex-col sm:flex-row items-center justify-between gap-2">
+        <p className="text-sm text-gray-200">
+          ⚡ Emite en segundos • Reportes listos para contabilidad • Envío por WhatsApp/Email
+        </p>
+        <span className="text-xs font-bold px-3 py-1 rounded-full bg-yellow-500 text-black">
+          PROMO: Firma electrónica 1 año GRATIS (planes elegibles)
+        </span>
+      </div>
+    </div>
+  </div>
+
+  {/* Contenido */}
+  <div className="relative z-10 mx-auto max-w-7xl px-6 py-16">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 items-start">
+      {/* Col 1: Titular */}
+      <div className="lg:col-span-1 space-y-5">
+        <h2 className="text-4xl sm:text-5xl font-extrabold leading-tight">
+          <span className="block text-yellow-400">Facturación Electrónica</span>
+          <span className="block text-white">de extremo a extremo</span>
+        </h2>
+
+        <p className="text-gray-300 text-base sm:text-lg">
+          Emite facturas desde la web con una experiencia moderna y rápida.
+          <span className="text-gray-400"> Modo offline disponible (según configuración).</span>
+        </p>
+
+        <div className="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
+          <span className="text-2xl">💰</span>
+          <div>
+            <p className="text-xs text-gray-300">Desde</p>
+            <p className="text-xl font-extrabold">
+              <span className="text-green-400">$0.03</span> <span className="text-gray-200">por factura*</span>
+            </p>
+          </div>
+        </div>
+
+        <div className="flex flex-col sm:flex-row gap-4 pt-2">
+          <a
+            href="#contacto"
+            className="inline-block px-7 py-3 rounded-xl font-extrabold bg-yellow-500 hover:bg-yellow-600 text-black shadow-lg transition text-center"
+          >
+            🚀 Quiero una demo
+          </a>
+
+          <a
+            href="https://wa.me/593963203102?text=Hola%20GPTROBOTIC,%20quiero%20informaci%C3%B3n%20de%20Facturaci%C3%B3n%20Electr%C3%B3nica%20(%240.03%20por%20factura)%20y%20una%20demo."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block px-7 py-3 rounded-xl font-extrabold bg-green-600 hover:bg-green-700 text-white shadow-lg transition text-center"
+          >
+            💬 WhatsApp
+          </a>
+        </div>
+      </div>
+
+      {/* Col 2: Beneficios */}
+      <div className="lg:col-span-1 bg-gray-900/60 backdrop-blur border border-white/10 rounded-2xl p-7 shadow-xl">
+        <h3 className="text-2xl font-bold flex items-center gap-2">
+          <span>✅</span> Todo lo que necesitas
+        </h3>
+
+        <ul className="mt-6 space-y-4 text-gray-200">
+          <li className="flex gap-3">
+            <span className="text-yellow-400 mt-0.5">⚡</span>
+            <div><b>Emisión ágil</b>: menos pasos, menos errores.</div>
+          </li>
+
+          <li className="flex gap-3">
+            <span className="text-sky-400 mt-0.5">👤</span>
+            <div>
+              <b>Autollenado por cédula</b> (cuando el servicio esté disponible) para reducir tiempo.
+            </div>
+          </li>
+
+          <li className="flex gap-3">
+            <span className="text-emerald-300 mt-0.5">📡</span>
+            <div><b>Online + Offline</b>: guarda y sincroniza al volver la conexión (según configuración).</div>
+          </li>
+
+          <li className="flex gap-3">
+            <span className="text-purple-300 mt-0.5">📊</span>
+            <div><b>Reportes</b> para contabilidad + exportaciones.</div>
+          </li>
+
+          <li className="flex gap-3">
+            <span className="text-amber-200 mt-0.5">🔒</span>
+            <div>Seguridad y trazabilidad de documentos.</div>
+          </li>
+        </ul>
+
+        <div className="mt-6 text-xs text-gray-400 space-y-2 leading-relaxed">
+          <p>* Tarifa referencial; puede variar por plan y volumen.</p>
+          <p>** Autollenado por cédula sujeto a disponibilidad/configuración; no reemplaza verificaciones.</p>
+          <p>*** Offline: registro local y sincronización al volver la conexión (según configuración).</p>
+        </div>
+      </div>
+
+      {/* Col 3: “Mockup” visual */}
+      <div className="lg:col-span-1">
+        <div className="rounded-3xl border border-white/10 bg-gradient-to-b from-white/10 to-white/5 p-6 shadow-2xl">
+          <div className="flex items-center justify-between">
+            <div className="text-sm text-gray-200 font-semibold">Panel de emisión</div>
+            <span className="text-xs px-2 py-1 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-200">
+              LIVE
+            </span>
+          </div>
+
+          <div className="mt-5 rounded-2xl bg-black/30 border border-white/10 p-4">
+            <div className="h-3 w-32 rounded bg-white/20 mb-3" />
+            <div className="grid grid-cols-2 gap-3">
+              <div className="h-10 rounded-xl bg-white/10 border border-white/10" />
+              <div className="h-10 rounded-xl bg-white/10 border border-white/10" />
+              <div className="col-span-2 h-10 rounded-xl bg-white/10 border border-white/10" />
+            </div>
+
+            <div className="mt-4 flex items-center gap-3">
+              <div className="h-9 flex-1 rounded-xl bg-yellow-500/80 hover:bg-yellow-500 transition" />
+              <div className="h-9 w-24 rounded-xl bg-green-500/70" />
+            </div>
+
+            <div className="mt-4 grid grid-cols-3 gap-3">
+              <div className="h-14 rounded-xl bg-white/10 border border-white/10" />
+              <div className="h-14 rounded-xl bg-white/10 border border-white/10" />
+              <div className="h-14 rounded-xl bg-white/10 border border-white/10" />
+            </div>
+          </div>
+
+          <div className="mt-5 rounded-2xl bg-gray-950/60 border border-white/10 p-4 text-sm text-gray-200">
+            <b>¿Integración contable/API?</b> Te dejamos reportes listos o conectamos por API (según alcance).
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
 <p className="text-center text-white mb-12 max-w-3xl mx-auto text-base md:text-lg">
   En GPT Robotic desarrollamos <span className="text-yellow-400 font-semibold">sistemas inteligentes</span> para 
   <span className="text-green-400"> clínicas, consultorios, tiendas, almacenes</span> y más. 

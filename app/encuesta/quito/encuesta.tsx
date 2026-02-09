@@ -52,25 +52,12 @@ const CANDIDATES: CandidateOption[] = [
   },
   {
     code: "D",
-    name: "Patricio Carrillo",
-    movement: "Centro Democrático",
-    list: "Lista ",
-    color: "#F97316", // tomate (orange)
+    name: "Paola Pavon",
+    movement: "Revolución Ciudadana",
+    list: "Lista 5 ",
+    color: "#38BDF8", // tomate (orange)
   },
-  {
-    code: "E",
-    name: "Andres Paez",
-    movement: "A",
-    list: "Lista ",
-    color: "#7C3AED", // morado
-  },
-  {
-    code: "F",
-    name: "Klever Andrade",
-    movement: "Lista 63",
-    list: "Lista 63",
-    color: "#2563EB", // azul igual que A
-  },
+ 
 ];
 
 const EXTRA_CHOICES: { code: Exclude<VoteChoice, "A" | "B" | "C" | "D" | "E" | "F">; label: string }[] = [
@@ -360,7 +347,23 @@ export default function EncuestaQuito() {
   if (done) return <Gracias />;
 
   return (
+
+    
     <div className="space-y-5">
+          <header className="bg-gray-900 border border-gray-800 rounded-xl p-5">
+    <div className="flex items-center gap-3">
+  <h1 className="text-xl sm:text-2xl font-bold text-white">
+    Encuesta Alcaldía de Quito 2027
+  </h1>
+  <span className="text-xs font-semibold px-3 py-1 rounded-full border border-yellow-400 text-yellow-300 bg-yellow-500/10">
+    2027
+  </span>
+</div>
+
+      <p className="text-sm text-gray-300 mt-1">
+        Anónima • Uso estadístico • 2–3 minutos
+      </p>
+    </header>
       <div className="flex items-center justify-between">
         <div className="text-sm text-gray-300">Progreso</div>
         <div className="text-sm text-gray-400">{progress}%</div>
