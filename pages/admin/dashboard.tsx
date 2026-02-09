@@ -95,11 +95,10 @@ const CANDIDATE_META_BOLIVAR: CandidateMeta = {
 // Cambia nombres/sub/colores según tu encuesta Quito
 const CANDIDATE_META_QUITO: CandidateMeta = {
   A: { label: "A · Pabel Muñoz", color: "#2563EB", sub: "..." },
-  B: { label: "B · Jorge Angulo", color: "#DC2626", sub: "..." },
-  C: { label: "C · Pilar Noriega", color: "#38BDF8", sub: "..." },
-  D: { label: "D · Fernando Erazo", color: "#F97316", sub: "..." },
-  E: { label: "E · Darío Paspuel", color: "#7C3AED", sub: "..." },
-  F: { label: "F · Klever Andrade", color: "#22C55E", sub: "..." },
+  B: { label: "B · Jorge Yunda", color: "#DC2626", sub: "..." },
+  C: { label: "C · Juan Zapata", color: "#38BDF8", sub: "..." },
+  D: { label: "D · Paola Pavon", color: "#F97316", sub: "..." },
+
   blanco: { label: "Voto en blanco", color: "#9CA3AF" },
   nulo: { label: "Voto nulo", color: "#6B7280" },
   no_decidido: { label: "Aún no decide", color: "#EAB308" },
