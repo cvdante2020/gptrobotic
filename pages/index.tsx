@@ -511,17 +511,18 @@ export default function Home() {
               required
             />
 
-            <input
-              name="celular"
-              type="tel"
-              value={form.celular}
-              onChange={handleChange}
-              placeholder="Tu número de celular"
-              pattern="^(09\\d{8}|593\\d{9})$"
-              title="Debe iniciar con 09 o 593 y tener el formato correcto"
-              className="w-full px-4 py-2 border border-gray-700 bg-gray-800 text-white rounded"
-              required
-            />
+           <input
+  name="celular"
+  type="tel"
+  value={form.celular}
+  onChange={handleChange}
+  placeholder="Tu número de celular"
+  pattern="^(?:09\d{8}|5939\d{8})$"
+  title="Debe iniciar con 09 o 5939 y tener el formato correcto"
+  className="w-full px-4 py-2 border border-gray-700 bg-gray-800 text-white rounded"
+  required
+/>
+
 
             <textarea
               name="mensaje"
