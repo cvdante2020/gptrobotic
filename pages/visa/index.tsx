@@ -34,6 +34,10 @@ export default function VisaPage() {
   const [result, setResult] = useState<any>(null);
   const [err, setErr] = useState<string | null>(null);
 
+  // Acceso
+  const [accessGranted, setAccessGranted] = useState(false);
+  const [login, setLogin] = useState({ username: "", password: "" });
+
   // Toast
   const [toast, setToast] = useState<string | null>(null);
   function showToast(msg: string) {
@@ -66,7 +70,7 @@ export default function VisaPage() {
     const jc = await rc.json().catch(() => ({}));
     if (!rc.ok) {
       setLoading(false);
-      if (rc.status === 401) return router.push("/");
+      if (rc.status === 401) { setAccessGranted(false); return setErr("Tu sesión no está activa. Ingresa nuevamente o solicita acceso por WhatsApp."); }
       return setErr(jc?.error || "No se pudo registrar el consentimiento.");
     }
 
@@ -78,7 +82,7 @@ export default function VisaPage() {
     setLoading(false);
 
     if (!r.ok) {
-      if (r.status === 401) return router.push("/");
+      if (r.status === 401) { setAccessGranted(false); return setErr("Tu sesión no está activa. Ingresa nuevamente o solicita acceso por WhatsApp."); }
       return setErr(j?.error || "Error cargando preguntas.");
     }
 
@@ -143,7 +147,7 @@ export default function VisaPage() {
     setLoading(false);
 
     if (!r.ok) {
-      if (r.status === 401) return router.push("/");
+      if (r.status === 401) { setAccessGranted(false); return setErr("Tu sesión no está activa. Ingresa nuevamente o solicita acceso por WhatsApp."); }
       return setErr(j?.error || "Error calculando score.");
     }
 
@@ -176,6 +180,32 @@ export default function VisaPage() {
 
     showToast("✅ Enviado a tu email. Redirigiendo…");
     setTimeout(() => router.push("/"), 1200);
+  }
+
+
+  async function loginVisa() {
+    setErr(null);
+    if (!login.username.trim() || !login.password.trim()) {
+      return setErr("Ingresa usuario y contraseña.");
+    }
+
+    setLoading(true);
+    const r = await fetch("/api/visa/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username: login.username.trim(), password: login.password }),
+    });
+
+    const j = await r.json().catch(() => ({}));
+    setLoading(false);
+
+    if (!r.ok) {
+      return setErr(j?.error || "No se pudo iniciar sesión.");
+    }
+
+    setAccessGranted(true);
+    setErr(null);
+    showToast("Acceso correcto. Ahora acepta el consentimiento para iniciar.");
   }
 
   const cardStyle: React.CSSProperties = {
@@ -218,6 +248,81 @@ export default function VisaPage() {
     border: "1px solid #334155",
     cursor: "pointer",
   };
+
+  if (!accessGranted) {
+    return (
+      <div style={{ minHeight: "100vh", background: "#f8fafc", color: "#0f172a" }}>
+        <div style={{ maxWidth: 980, margin: "0 auto", padding: "28px 18px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
+            <Link href="/" style={{ fontWeight: 900, textDecoration: "none", color: "#0f172a" }}>
+              GPT Robotic
+            </Link>
+            <Link href="/" style={{ fontWeight: 800, textDecoration: "underline", color: "#475569" }}>
+              Volver
+            </Link>
+          </div>
+
+          <div style={{ marginTop: 42, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 22, alignItems: "stretch" }}>
+            <section style={{ background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: 28, padding: 28, boxShadow: "0 20px 60px rgba(15, 23, 42, 0.08)" }}>
+              <div style={{ color: "#2563eb", fontWeight: 900, letterSpacing: ".08em", textTransform: "uppercase", fontSize: 13 }}>
+                Visa Score
+              </div>
+              <h1 style={{ margin: "12px 0 0", fontSize: 42, lineHeight: 1.05 }}>
+                Ingresa a tu evaluación privada.
+              </h1>
+              <p style={{ marginTop: 16, color: "#475569", lineHeight: 1.7 }}>
+                Si ya tienes una cuenta, inicia sesión para continuar. Si todavía no has pagado o no tienes credenciales, escríbenos por WhatsApp para activar tu acceso.
+              </p>
+
+              <div style={{ marginTop: 22, display: "grid", gap: 12 }}>
+                <label style={{ display: "grid", gap: 6, fontWeight: 800 }}>
+                  Usuario
+                  <input
+                    value={login.username}
+                    onChange={(e) => setLogin((p) => ({ ...p, username: e.target.value }))}
+                    style={{ padding: 13, borderRadius: 14, border: "1px solid #cbd5e1" }}
+                    placeholder="Tu usuario"
+                  />
+                </label>
+                <label style={{ display: "grid", gap: 6, fontWeight: 800 }}>
+                  Contraseña
+                  <input
+                    type="password"
+                    value={login.password}
+                    onChange={(e) => setLogin((p) => ({ ...p, password: e.target.value }))}
+                    style={{ padding: 13, borderRadius: 14, border: "1px solid #cbd5e1" }}
+                    placeholder="Tu contraseña"
+                  />
+                </label>
+                <button onClick={loginVisa} disabled={loading} style={{ ...btnPrimary, marginTop: 4 }}>
+                  {loading ? "Ingresando..." : "Ingresar a Visa Score"}
+                </button>
+                {err && <div style={{ color: "#dc2626", fontWeight: 800 }}>{err}</div>}
+              </div>
+            </section>
+
+            <aside style={{ background: "#0f172a", color: "#fff", borderRadius: 28, padding: 28 }}>
+              <h2 style={{ marginTop: 0, fontSize: 28 }}>¿No tienes cuenta?</h2>
+              <p style={{ color: "#cbd5e1", lineHeight: 1.7 }}>
+                Solicita el acceso por WhatsApp. Te indicaremos el valor, forma de pago y después recibirás usuario y contraseña para entrar a la evaluación.
+              </p>
+              <a
+                href="https://wa.me/593963203102?text=Hola%20GPT%20Robotic%2C%20quiero%20pagar%20y%20activar%20mi%20acceso%20a%20Visa%20Score."
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ display: "block", marginTop: 18, textAlign: "center", background: "#22c55e", color: "#052e16", fontWeight: 900, padding: "14px 16px", borderRadius: 16, textDecoration: "none" }}
+              >
+                Pagar por WhatsApp
+              </a>
+              <div style={{ marginTop: 18, padding: 14, borderRadius: 18, background: "rgba(255,255,255,.06)", color: "#cbd5e1", fontSize: 14, lineHeight: 1.6 }}>
+                Importante: esta evaluación es informativa. No garantiza aprobación ni reemplaza asesoría legal o migratoria.
+              </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div style={{ maxWidth: 980, margin: "30px auto", padding: 18 }}>
