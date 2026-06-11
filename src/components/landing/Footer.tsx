@@ -2,40 +2,17 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-slate-200 bg-[#020617] px-5 py-14 md:px-8">
-      <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.2fr_0.8fr_0.8fr_0.8fr]">
+    <footer className="border-t border-slate-200 bg-white px-5 py-10 md:px-8">
+      <div className="mx-auto flex max-w-7xl flex-col gap-6 text-sm text-slate-500 md:flex-row md:items-center md:justify-between">
         <div>
-          <div className="text-3xl font-extrabold text-slate-950">GPT<span className="text-cyan-600">ROBOTIC</span></div>
-          <p className="mt-4 max-w-md leading-7 text-slate-500">
-            Plataforma de embajadores, automatización, publicidad digital y soluciones SaaS para negocios.
-          </p>
+          <div className="font-semibold text-slate-950">GPT Robotic</div>
+          <div>Software empresarial accesible para Ecuador y Latinoamérica.</div>
         </div>
-
-        <div>
-          <h4 className="font-extrabold text-slate-950">Programa</h4>
-          <div className="mt-4 space-y-3 text-sm text-slate-500">
-            <a href="#registro" className="block hover:text-cyan-600">Aplicar</a>
-            <a href="#calculadora" className="block hover:text-cyan-600">Calculadora</a>
-            <a href="#como-funciona" className="block hover:text-cyan-600">Cómo funciona</a>
-          </div>
-        </div>
-
-        <div>
-          <h4 className="font-extrabold text-slate-950">Soluciones</h4>
-          <div className="mt-4 space-y-3 text-sm text-slate-500">
-            <Link href="/clinicas" className="block hover:text-cyan-600">Clínicas</Link>
-            <Link href="/autos" className="block hover:text-cyan-600">Autos</Link>
-            <Link href="/visa" className="block hover:text-cyan-600">Visa Score</Link>
-          </div>
-        </div>
-
-        <div>
-          <h4 className="font-extrabold text-slate-950">Contacto</h4>
-          <div className="mt-4 space-y-3 text-sm text-slate-500">
-            <Link href="https://www.facebook.com/gptrobotic" target="_blank" className="block hover:text-cyan-600">Facebook</Link>
-            <span className="block">Ecuador</span>
-            <span className="block">© 2026 GPT Robotic</span>
-          </div>
+        <div className="flex flex-wrap gap-5">
+          <Link href="/clinicas" className="hover:text-slate-950">Clinic</Link>
+          <Link href="/facturacion" className="hover:text-slate-950">Factura</Link>
+          <Link href="/autos" className="hover:text-slate-950">Autos</Link>
+          <Link href="/#contacto" className="hover:text-slate-950">Contacto</Link>
         </div>
       </div>
     </footer>

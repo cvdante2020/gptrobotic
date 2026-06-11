@@ -1,164 +1,35 @@
 "use client";
 
-import { useState } from "react";
+import ContactoForm from "@/components/ContactoForm";
 
-interface ContactoFormProps {
-  sector?: string;
-  modal?: boolean;
-  onClose?: () => void;
-}
+const phone = "+593 96 320 3102";
+const email = "info@gptrobotic.com";
+const whatsappUrl =
+  "https://wa.me/593963203102?text=Hola%20GPT%20Robotic%2C%20quiero%20informaci%C3%B3n%20de%20sus%20soluciones.";
 
-export default function ContactoForm({ sector, modal = false, onClose }: ContactoFormProps) {
-  const [form, setForm] = useState({
-    nombre: "",
-    email: "",
-    celular: "",
-    mensaje: "",
-  });
-  const [enviando, setEnviando] = useState(false);
-  const [enviado, setEnviado] = useState(false);
+export default function ContactSection() {
+  return (
+    <section id="contacto" className="bg-slate-950 px-5 py-20 text-white md:px-8">
+      <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+        <div>
+          <p className="text-sm font-extrabold uppercase tracking-[0.2em] text-emerald-300">Contacto</p>
+          <h2 className="mt-3 text-3xl font-extrabold tracking-tight md:text-5xl">Hablemos de la solución que necesita tu negocio.</h2>
+          <p className="mt-5 text-lg leading-8 text-slate-300">Puedes escribir por WhatsApp, enviar correo o dejar tus datos en el formulario.</p>
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+          <div className="mt-8 space-y-4">
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="block rounded-2xl border border-white/10 bg-white/10 p-5 font-bold text-white transition hover:bg-white/15">
+              WhatsApp: {phone}
+            </a>
+            <a href={`mailto:${email}`} className="block rounded-2xl border border-white/10 bg-white/10 p-5 font-bold text-white transition hover:bg-white/15">
+              Email: {email}
+            </a>
+          </div>
+        </div>
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setEnviando(true);
-    try {
-      const payload = {
-        ...form,
-        sector: sector || "General"
-      };
-
-      const response = await fetch("/api/send-email", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(payload)
-      });
-
-      if (response.ok) {
-        setEnviado(true);
-        setForm({ nombre: "", email: "", celular: "", mensaje: "" });
-      } else {
-        alert("Error al enviar el mensaje. Intenta nuevamente.");
-      }
-    } catch (error) {
-      console.error("Error al enviar mensaje:", error);
-      alert("No se pudo enviar el mensaje.");
-    } finally {
-      setEnviando(false);
-    }
-  };
-
-  const content = (
-    <div className="space-y-4">
-      {enviado ? (
-        <p className="text-green-400 text-center text-lg">✅ Gracias por contactarnos. Te responderemos pronto.</p>
-      ) : (
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            name="nombre"
-            type="text"
-            value={form.nombre}
-            onChange={handleChange}
-            placeholder="Tu nombre"
-            maxLength={80}
-            required
-            className="w-full px-4 py-2 border border-gray-700 bg-gray-800 text-white rounded"
-          />
-          <input
-            name="email"
-            type="email"
-            value={form.email}
-            onChange={handleChange}
-            placeholder="Tu correo"
-            maxLength={120}
-            required
-            className="w-full px-4 py-2 border border-gray-700 bg-gray-800 text-white rounded"
-          />
-          <input
-            name="celular"
-            type="tel"
-            value={form.celular}
-            onChange={handleChange}
-            placeholder="Tu número de celular"
-            pattern="^(09\d{8}|593\d{9})$"
-            title="Debe iniciar con 09 o 593"
-            required
-            className="w-full px-4 py-2 border border-gray-700 bg-gray-800 text-white rounded"
-          />
-          <textarea
-            name="mensaje"
-            value={form.mensaje}
-            onChange={handleChange}
-            placeholder="Cuéntanos un poco de tu negocio y qué necesitas..."
-            maxLength={3000}
-            rows={6}
-            required
-            className="w-full px-4 py-2 border border-gray-700 bg-gray-800 text-white rounded"
-          />
-          <button
-            type="submit"
-            disabled={enviando}
-            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full flex justify-center items-center"
-          >
-            {enviando ? (
-  <>
-    <svg
-      className="animate-spin mr-2 h-5 w-5 text-white"
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-    >
-      <circle
-        className="opacity-25"
-        cx="12"
-        cy="12"
-        r="10"
-        stroke="currentColor"
-        strokeWidth="4"
-      />
-      <path
-        className="opacity-75"
-        fill="currentColor"
-        d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-      />
-    </svg>
-    Enviando...
-  </>
-) : (
-  "Enviar mensaje"
-)}
-          </button>
-        </form>
-      )}
-    </div>
-  );
-
-  return modal ? (
-    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-      <div className="bg-gray-900 rounded-lg max-w-xl w-full p-6 relative">
-        <button
-          onClick={onClose}
-          className="absolute top-2 right-2 text-gray-400 hover:text-white text-xl"
-        >
-          ✕
-        </button>
-        <h2 className="text-2xl font-bold text-blue-400 mb-4 text-center">
-          Contáctanos {sector ? `- ${sector}` : ""}
-        </h2>
-        {content}
+        <div className="rounded-[32px] border border-white/10 bg-white/10 p-4 backdrop-blur md:p-6">
+          <ContactoForm sector="GPTRobotic" />
+        </div>
       </div>
-    </div>
-  ) : (
-    <section id="contacto" className="py-20 px-6 max-w-3xl mx-auto">
-      <h2 className="text-3xl font-bold text-blue-400 text-center mb-6">
-        Contáctanos {sector ? `- ${sector}` : ""}
-      </h2>
-      {content}
     </section>
   );
 }
