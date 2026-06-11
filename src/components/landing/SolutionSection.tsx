@@ -37,7 +37,7 @@ export default function SolutionsSection() {
         <div className="max-w-3xl">
           <span className="text-sm font-medium tracking-[0.24em] text-blue-600 uppercase">Productos principales</span>
           <h2 className="mt-4 text-4xl font-semibold tracking-[-0.05em] text-slate-950 md:text-6xl">Tres ofertas claras. Una marca más fuerte.</h2>
-          <p className="mt-5 text-lg leading-8 text-slate-600">La página deja de vender “todo a la vez” y presenta soluciones fáciles de entender, comparar y comprar.</p>
+          <p className="mt-5 text-lg leading-8 text-slate-600">Sin rodeos, sin limitaciones, precio justo, detalle tu requerimiento y entregamos la solución a tu medida.</p>
         </div>
 
         <div className="mt-12 grid gap-5 lg:grid-cols-3">
